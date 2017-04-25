@@ -29,12 +29,12 @@ ADD php.ini    /usr/local/etc/php/php.ini
 ADD php-fpm.conf    /usr/local/etc/php-fpm.conf
 
 # composer
-ADD composer.phar /usr/local/bin/composer
-RUN chmod +x /usr/local/bin/composer \
-    && composer self-update \
-    && composer config -g repo.packagist composer https://packagist.phpcomposer.com \
-    && curl -o /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar \
-    && chmod +x /usr/local/bin/phpunit
+# ADD composer.phar /usr/local/bin/composer
+# RUN chmod +x /usr/local/bin/composer \
+#     && composer config -g repo.packagist composer https://packagist.phpcomposer.com \
+#     && composer self-update \
+#     && curl -o /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar \
+#     && chmod +x /usr/local/bin/phpunit
 
 WORKDIR /opt
 
