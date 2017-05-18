@@ -25,8 +25,9 @@ RUN pecl install memcached \
         && docker-php-ext-enable redis memcached xdebug
 
 # PHP config
-ADD php.ini    /usr/local/etc/php/php.ini
-ADD php-fpm.conf    /usr/local/etc/php-fpm.conf
+ADD php.ini      /usr/local/etc/php/php.ini
+ADD php-fpm.conf /usr/local/etc/php-fpm.conf
+ADD xdebug.ini   /usr/local/etc/php/conf.d/xdebug.ini
 
 # composer
 # ADD composer.phar /usr/local/bin/composer
@@ -37,9 +38,10 @@ ADD php-fpm.conf    /usr/local/etc/php-fpm.conf
 #     && chmod +x /usr/local/bin/phpunit
 
 WORKDIR /opt
+RUN mkdir /opt/logs && mkdir /opt/logs/php && chown -R www-data.www-data /opt/logs/php
 
 # Write Permission
 RUN usermod -u 1000 www-data
 
-EXPOSE 9000
+EXPOSE 9000 9001
 VOLUME ["/opt"]

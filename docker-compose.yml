@@ -17,22 +17,24 @@ services:
       volumes:
         - ${WORKSPACE}:/opt/
       networks:
-        - frontend
         - backend
 
     php:
       build: ./php
-      ports:
-        - "9000:9000"
-        - "8000:8000"
       links:
-        - "mysql"
-        - "redis"
+        # 如果要使用mysql请把这句取消注释
+        # - "mysql"
+        # 如果要使用redis请把这句话取消注释
+        # - "redis"
       volumes:
         - ${WORKSPACE}:/opt
         - ${LOGS_PATH}/php:/opt/logs/php
       networks:
         - backend
+      environment:
+        - PHP_IDE_CONFIG=serverName=${SERVER_NAME}
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
 
     mysql:
       build: ./mysql
@@ -42,10 +44,11 @@ services:
         - ${DATA_PATH}/mysql:/var/lib/mysql
         - ${LOGS_PATH}/mysql:/var/log/mysql
       environment:
-        - MYSQL_DATABASE=sw
-        - MYSQL_USER=rrrr
-        - MYSQL_PASSWORD=123456
-        - MYSQL_ROOT_PASSWORD=123456
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_PORT=${MYSQL_PORT}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       networks:
         - backend
 
